@@ -2,45 +2,69 @@ var axios = require("axios");
 const env = require("./config.env");
 
 var data = JSON.stringify({
-  responsiblePartyType: "Individual",
-  responsibleParty: "Company Name",
-  bindingParty: "Jane Doe",
-  country: "United States of America",
-  streetAddress1: "255 Pouros Circle",
-  streetAddress2: "Suite 123",
-  city: "Raleigh",
-  state: "NC",
-  postalCode: "27616",
-  privateContact: "jane@example.com",
-  publicContact: "jane.doe@example.com",
-  projectName: "My Open Source Project",
-  projectWebsite: "https://www.example.com",
-  projectVersion: "1.0",
-  previousVersions: ["US000000"],
-  projectDescription: "Lorem ipsum dolor sit amet.",
-  primaryType: "Electronics",
-  additionalType: ["3D Printing"],
-  projectKeywords: ["3D Printing", "electronics"],
+  responsiblePartyType: "Organization", //r g
+  responsibleParty: "Appropedia", //r see right below
+  bindingParty: "Jane Doe", //r not sure what the difference between these two are
+  country: "United States of America", //r check this and address
+  projectName: "My Open Source Project", //r title
+  projectWebsite: "https://www.example.com", // project-link
+  projectDescription: "Lorem ipsum dolor sit amet.", // description
+  primaryType: "Electronics", //r will need user to select?
+  projectKeywords: ["3D Printing", "electronics"], // keywords
   citations: [
+    // variant-of
     {
-      title: "First Citation",
-      url: "https://www.example.com",
+      title: "First Citation", // name
+      url: "https://www.example.com", // web
     },
   ],
-  documentationUrl: "https://www.example.com",
+  documentationUrl: "https://www.example.com", // licensor.documentation-home
   availableFileFormat: false,
-  hardwareLicense: "CERN",
-  softwareLicense: "Apache",
-  documentationLicense: "CC 0",
-  noCommercialRestriction: false,
-  explanationNcr: "Lorem ipsum dolor sit amet.",
-  noDocumentationRestriction: false,
-  explanationNdr: "Lorem ipsum dolor sit amet.",
-  openHardwareComponents: "false",
-  explanationOhwc: "Lorem ipsum dolor sit amet.",
-  creatorContribution: false,
-  explanationCcr: "Lorem ipsum dolor sit amet.",
-  noUseRestriction: false,
+  hardwareLicense: "CERN", //r
+  /*
+      "hardwareLicenseOptions": [
+        "CERN-OHL-P-2.0",
+        "CERN-OHL-W-2.0",
+        "CERN-OHL-S-2.0",
+        "Solderpad",
+        "TAPR",
+        "Other",
+        "CERN-OHL-1.2",
+        "CERN"
+    ],
+    "softwareLicenseOptions": [
+        "Apache",
+        "CERN-OHL-P-2.0",
+        "CERN-OHL-W-2.0",
+        "CERN-OHL-S-2.0",
+        "GPL",
+        "LGPL",
+        "MIT",
+        "Mozilla",
+        "Other",
+        "No software"
+    ],
+    "documentationLicenseOptions": [
+        "CC 0",
+        "CC BY",
+        "CC BY-SA",
+        "CERN-OHL-P-2.0",
+        "CERN-OHL-W-2.0",
+        "CERN-OHL-S-2.0",
+        "Other"
+    ]
+  */
+  softwareLicense: "Apache",//r
+  documentationLicense: "CC 0", //r
+  noCommercialRestriction: false, //r ask about
+  explanationNcr: "Lorem ipsum dolor sit amet.", //r if noCommercialRest is false
+  noDocumentationRestriction: false, //r ask about
+  explanationNdr: "Lorem ipsum dolor sit amet.", //r if noDocu is false
+  openHardwareComponents: "false", //r ask about
+  explanationOhwc: "Lorem ipsum dolor sit amet.", //r if openH is false
+  creatorContribution: false, //r ask about
+  explanationCcr: "Lorem ipsum dolor sit amet.", //r if creator is false
+  noUseRestriction: false, 
   explanationNur: "Lorem ipsum dolor sit amet.",
   redistributedWork: false,
   explanationRwr: "Lorem ipsum dolor sit amet.",
@@ -49,7 +73,7 @@ var data = JSON.stringify({
   noComponentRestriction: false,
   explanationNor: "Lorem ipsum dolor sit amet.",
   technologyNeutral: false,
-  explanationTn: "Lorem ipsum dolor sit amet.",
+  explanationTn: "Lorem ipsum dolor sit amet.", // same as above
   certificationMarkTerms: {
     accurateContactInformation: {
       term: "I have provided OSHWA with accurate contact information, recognize that all official communications from OSHWA will be directed to that contact information, and will update that contact information as necessary.",
@@ -57,9 +81,9 @@ var data = JSON.stringify({
     },
   },
   explanationCertificationTerms: "Lorem ipsum dolor sit amet.",
-  relationship: "self",
+  relationship: "self", // think this can always be `self`
   agreementTerms: true,
-  parentName: "J Doe",
+  parentName: "J Doe", // don't know what this is
 });
 
 var config = {
