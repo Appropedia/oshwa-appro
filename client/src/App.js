@@ -3,6 +3,7 @@ import Button from "@mui/material/Button";
 import { Route, Routes, useParams } from "react-router-dom";
 import Certification from "./Pages/Certification";
 import Eligibility from "./Pages/Eligibility";
+
 const theme = createTheme({
   palette: {
     primary: {
