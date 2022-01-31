@@ -11,7 +11,7 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: ["Archivo", "Roboto", "sans-serif"].join(","),
+    fontFamily: ["Arial", "sans-serif"].join(","),
   },
 });
 
