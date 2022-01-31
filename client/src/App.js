@@ -1,8 +1,8 @@
-import { Container, createTheme, ThemeProvider } from "@mui/material";
-import Button from "@mui/material/Button";
-import { Route, Routes, useParams } from "react-router-dom";
+import { createTheme, ThemeProvider } from "@mui/material";
+import { Route, Routes } from "react-router-dom";
 import Certification from "./Pages/Certification";
 import Eligibility from "./Pages/Eligibility";
+import "./index.css";
 
 const theme = createTheme({
   palette: {
@@ -18,10 +18,10 @@ const theme = createTheme({
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <Routes>
-        <Route exact path="/page/:pageName" element={<Certification />} />
-        <Route exact path="/eligibilty" element={<Eligibility />} />
-      </Routes>
+        <Routes>
+          <Route exact path="/page/:pageName" element={<Certification />} />
+          <Route exact path="/eligibilty" element={<Eligibility />} />
+        </Routes>
     </ThemeProvider>
   );
 }

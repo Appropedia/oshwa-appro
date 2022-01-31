@@ -1,13 +1,6 @@
-import { Button, Container, TextField, Typography } from "@mui/material";
+import { Button, Container, TextField, Typography, Grid } from "@mui/material";
 import React from "react";
-import {
-  Formik,
-  Field,
-  Form,
-  ErrorMessage,
-  FieldArray,
-  useFormik,
-} from "formik";
+import { useFormik } from "formik";
 
 const Eligibility = () => {
   /*
@@ -32,23 +25,32 @@ const Eligibility = () => {
 
   return (
     <Container maxWidth="md">
-      <Typography variant="h2" component="h1">
+      <Typography variant="h3" component="h3" align="center">
         We've already got most of the data we need! Just fill out the few fields
         below.
       </Typography>
       <div>
         <form onSubmit={formik.handleSubmit}>
-          {OSHWAFields.map((element, index) => (
-            <TextField
+          <div>
+            {OSHWAFields.map((element, index) => (
+              <TextField
+                fullWidth
+                sx={{ marginTop: "2vh" }}
+                label={element}
+                name={element}
+                onChange={formik.handleChange}
+              />
+            ))}
+            <Button
               fullWidth
-              label={element}
-              name={element}
-              onChange={formik.handleChange}
-            />
-          ))}
-          <Button color="primary" variant="contained" fullWidth type="submit">
-            Submit
-          </Button>
+              sx={{ marginTop: "2vh" }}
+              color="primary"
+              variant="contained"
+              type="submit"
+            >
+              Submit
+            </Button>
+          </div>
         </form>
       </div>
     </Container>
