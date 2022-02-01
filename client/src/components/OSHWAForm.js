@@ -89,7 +89,7 @@ const OSHWAForm = (props) => {
             {OSHWAFields.map((element, index) => (
               <FormControl fullWidth sx={{marginTop: "2vh"}}>
                 <InputLabel>{transformOSHWAField(element.OSHWAField)}</InputLabel>
-                <Select label={transformOSHWAField(element.OSHWAField)} onChange={formik.handleChange} helperText="test">
+                <Select label={transformOSHWAField(element.OSHWAField)} name={element.OSHWAField} onChange={formik.handleChange}>
                   <MenuItem value={true}>True</MenuItem>
                   <MenuItem value={false}>False</MenuItem>
                 </Select>
@@ -98,7 +98,6 @@ const OSHWAForm = (props) => {
             ))}
             <Button
               fullWidth
-              sx={{ marginTop: "2vh" }}
               color="primary"
               variant="contained"
               type="submit"
