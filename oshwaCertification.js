@@ -1,7 +1,7 @@
 var axios = require("axios");
 const env = require("./config.env");
 
-async function submitCertification(pageName) {
+export async function checkValidity(pageName) {
   const missingFields = [];
 
   const { data: approData } = await axios.get(
@@ -15,7 +15,7 @@ async function submitCertification(pageName) {
   const url = approData["URL"];
   const uses = approData["Uses"].split(", ");
   var primaryType;
-  const keywords = approData["Keywords"].split(", ");
+  const keywords = approData["Keywords"].split(", "); // not required
 
   if (!affliations) missingFields.push("Affiliations");
   if (!pageAuthors) missingFields.push("Page author");
@@ -23,24 +23,23 @@ async function submitCertification(pageName) {
   if (!title) missingFields.push("Title");
   if (!url) missingFields.push("URL");
 
-  var config = {
+  var optionsConfig = {
     method: "get",
     url: "https://certificationapi.oshwa.org/api/options",
     headers: {
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxZWYzODc1MDM2NTEyMDAxNzc4ZGNhYyIsImlhdCI6MTY0MzA2NzUwOSwiZXhwIjoxNjUxNzA3NTA5fQ.NIh-bGAlMNXnDL1a2p3j9dz5GRvLvWIjdiBqWUcfuaw",
+      Authorization: `Bearer ${env.OSHWA}`,
     },
   };
 
   const {
     data: { primaryTypeOptions },
-  } = await axios(config);
+  } = await axios(optionsConfig);
 
   if (!uses) {
     missingFields.push("Uses");
   } else {
-    for (use of uses) {
-      for (primaryTypeOption of primaryTypeOptions) {
+    for (const use of uses) {
+      for (const primaryTypeOption of primaryTypeOptions) {
         if (use.toLowerCase() == primaryTypeOption.toLowerCase()) {
           primaryType = primaryTypeOptions;
         } else {
@@ -50,9 +49,7 @@ async function submitCertification(pageName) {
     }
   }
 
-  // would be good if api didn't use spaces and returned arrays
-  // could try and get projectDescription
-  var oshwaData = {
+  partialOSHWAData = {
     responsiblePartyType: "Organization", //r "Organization"
     responsibleParty: affliations, //r [Affliations]
     bindingParty: pageAuthors, //r [Page authors]
@@ -60,9 +57,32 @@ async function submitCertification(pageName) {
     projectName: title, //r [Title]
     projectWebsite: url, // [URL]
     primaryType: primaryType, //r [Uses]
-    hardwareLicense: "CERN", //r "Other"
-    softwareLicense: "Apache", //r "Other"
-    documentationLicense: "CC 0", //r "Other"
+    hardwareLicense: "Other", //r "Other"
+    softwareLicense: "Other", //r "Other"
+    documentationLicense: "Other", //r "Other"
+  };
+
+  if (missingFields.length > 0) {
+    return missingFields;
+  } else {
+    return partialOSHWAData;
+  }
+}
+
+async function submitCertification(partialOSHWAData) {
+  // would be good if api didn't use spaces and returned arrays
+  // could try and get projectDescription
+  var oshwaData = {
+    // responsiblePartyType: "Organization", //r "Organization"
+    // responsibleParty: affliations, //r [Affliations]
+    // bindingParty: pageAuthors, //r [Page authors]
+    // country: mapResult.substr(0, mapResult.indexOf("~")), //r [Map result]
+    // projectName: title, //r [Title]
+    // projectWebsite: url, // [URL]
+    // primaryType: primaryType, //r [Uses]
+    // hardwareLicense: "CERN", //r "Other"
+    // softwareLicense: "Apache", //r "Other"
+    // documentationLicense: "CC 0", //r "Other"
     // ask users for the below fields. all explanations are r unless false
     noCommercialRestriction: false,
     explanationNcr: "Lorem ipsum dolor sit amet.",
@@ -114,14 +134,16 @@ async function submitCertification(pageName) {
     oshwaData.projectKeywords = keywords;
   }
 
-  var config = {
+  const merged = { ...oshwaData, ...partialOSHWAData };
+
+  var optionsConfig = {
     method: "post",
     url: "https://certificationapi.oshwa.org/api/projects/",
     headers: {
       Authorization: `Bearer ${env.OSHWA}`,
       "Content-Type": "application/json",
     },
-    data: approData,
+    data: merged,
   };
 
   // axios(config)
