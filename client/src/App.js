@@ -1,7 +1,7 @@
 import { createTheme, ThemeProvider } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
 import Certification from "./Pages/Certification";
-import Eligibility from "./Pages/Eligibility";
+import Validate from "./Pages/Validate";
 import "./index.css";
 
 const theme = createTheme({
@@ -20,7 +20,7 @@ function App() {
     <ThemeProvider theme={theme}>
         <Routes>
           <Route exact path="/page/:pageName" element={<Certification />} />
-          <Route exact path="/eligibilty" element={<Eligibility />} />
+          <Route exact path="/validate" element={<Validate />} />
         </Routes>
     </ThemeProvider>
   );

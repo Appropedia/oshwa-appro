@@ -1,18 +1,8 @@
-import { Button, Container, TextField, Typography, Grid } from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 import React from "react";
 import { useFormik } from "formik";
 
-const Eligibility = () => {
-  /*
-    validate = {
-        eligible: boolean;
-        errors: [{
-            field: string,
-            error: string
-        }]
-    } 
-    */
-
+const OSHWAForm = () => {
   const OSHWAFields = ["test1", "test2"];
   const formik = useFormik({
     initialValues: {
@@ -22,9 +12,8 @@ const Eligibility = () => {
       alert(JSON.stringify(values, null, 2));
     },
   });
-
   return (
-    <Container maxWidth="md">
+    <React.Fragment>
       <Typography variant="h3" component="h3" align="center">
         We've already got most of the data we need! Just fill out the few fields
         below.
@@ -53,8 +42,8 @@ const Eligibility = () => {
           </div>
         </form>
       </div>
-    </Container>
+    </React.Fragment>
   );
 };
 
-export default Eligibility;
+export default OSHWAForm;
