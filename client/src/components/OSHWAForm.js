@@ -4,14 +4,14 @@ import { useFormik } from "formik";
 
 const OSHWAForm = () => {
   const OSHWAFields = ["test1", "test2"];
+
   const formik = useFormik({
-    initialValues: {
-      email: "foobar@example.com",
-    },
+    initialValues: {},
     onSubmit: (values) => {
       alert(JSON.stringify(values, null, 2));
     },
   });
+
   return (
     <React.Fragment>
       <Typography variant="h3" component="h3" align="center">

@@ -3,22 +3,18 @@ import React from "react";
 import ApproFields from "../components/ApproFields";
 import OSHWAForm from "../components/OSHWAForm";
 
-const Eligibility = () => {
-  /*
-    validate = {
-        eligible: boolean;
-        errors: [{
-            field: string,
-            error: string
-        }]
-    } 
-  */
+const Validity = () => {
+  // valid = true OR [] of missing fields
+  const valid = true;
   return (
     <Container maxWidth="md">
-      {/* <OSHWAForm/>  */}
-      <ApproFields/>
+      {Array.isArray(valid) ? (
+        <ApproFields missingFields={valid} />
+      ) : (
+        <OSHWAForm />
+      )}
     </Container>
   );
 };
 
-export default Eligibility;
+export default Validity;
