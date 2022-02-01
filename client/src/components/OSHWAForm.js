@@ -65,8 +65,7 @@ const OSHWAForm = (props) => {
 
   function transformOSHWAField(OSHWAField) {
     const words = OSHWAField.replace(/([a-z0-9])([A-Z])/g, "$1 $2");
-    const capitalized =
-      words.charAt(0).toUpperCase() + words.slice(1);
+    const capitalized = words.charAt(0).toUpperCase() + words.slice(1);
     return capitalized;
   }
 
@@ -87,21 +86,23 @@ const OSHWAForm = (props) => {
         <form onSubmit={formik.handleSubmit}>
           <div>
             {OSHWAFields.map((element, index) => (
-              <FormControl fullWidth sx={{marginTop: "2vh"}}>
-                <InputLabel>{transformOSHWAField(element.OSHWAField)}</InputLabel>
-                <Select label={transformOSHWAField(element.OSHWAField)} name={element.OSHWAField} onChange={formik.handleChange}>
+              <FormControl fullWidth sx={{ marginTop: "2vh" }}>
+                <InputLabel>
+                  {transformOSHWAField(element.OSHWAField)}
+                </InputLabel>
+                <Select
+                  label={transformOSHWAField(element.OSHWAField)}
+                  name={element.OSHWAField}
+                  onChange={formik.handleChange}
+                >
                   <MenuItem value={true}>True</MenuItem>
                   <MenuItem value={false}>False</MenuItem>
                 </Select>
                 <FormHelperText>{element.description}</FormHelperText>
+                <TextField name={element.explanationField} multiline rows={2} maxRows={4} onChange={formik.handleChange}/>
               </FormControl>
             ))}
-            <Button
-              fullWidth
-              color="primary"
-              variant="contained"
-              type="submit"
-            >
+            <Button fullWidth color="primary" variant="contained" type="submit">
               Submit
             </Button>
           </div>
