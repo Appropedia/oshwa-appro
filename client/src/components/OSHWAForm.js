@@ -1,6 +1,9 @@
 import {
   Button,
+  Checkbox,
+  Divider,
   FormControl,
+  FormControlLabel,
   FormHelperText,
   InputLabel,
   MenuItem,
@@ -10,9 +13,10 @@ import {
 } from "@mui/material";
 import React from "react";
 import { useFormik } from "formik";
+var axios = require("axios");
 
 const OSHWAForm = (props) => {
-  const OSHWAFields = [
+  const OSHWATruthFields = [
     {
       OSHWAField: "noCommercialRestriction",
       explanationField: "explanationNcr",
@@ -63,6 +67,47 @@ const OSHWAForm = (props) => {
     },
   ];
 
+  const OSHWAAgreeFields = [
+    {
+      OSHWAField: "accurateContactInformation",
+      term: "I have provided OSHWA with accurate contact information, recognize that all official communications from OSHWA will be directed to that contact information, and will update that contact information as necessary.",
+    },
+    {
+      OSHWAField: "complianceWithOfficialCertificationGuidelines",
+      term: "I will only use the certification mark in compliance with official certification guidelines.",
+    },
+    {
+      OSHWAField: "oshwaCertificationMark",
+      term: "I acknowledge that all right, title, and interest in the certification mark remains with OSHWA.",
+    },
+    {
+      OSHWAField: "violationsEnforcement",
+      term: "I acknowledge that OSHWA has the right to enforce violations of the use of the mark. This enforcement may involve financial penalties for misuse in bad faith.",
+    },
+    {
+      OSHWAField: "violationsEnforcement",
+      term: "I have the ability to bind those responsible for the certified item to this agreement.",
+    },
+  ];
+
+  const OSHWATextFields = [
+    {
+      OSHWAField: "explanationCertificationTerms",
+      description:
+        "If you do not agree with any of the above terms, please explain.",
+    },
+    {
+      OSHWAField: "relationship",
+      description:
+        "Briefly describe your relationship to the certified item (e.g. 'I am the primary developer of the certified item.' or 'This is my personal project.')",
+    },
+    {
+      OSHWAField: "parentName",
+      description:
+        "If you are the parent or legal guardian entering into this agreement on behalf of an individual under the age of 18, please provide your name to certify that you also agree to be bound by this agreement.",
+    },
+  ];
+
   function transformOSHWAField(OSHWAField) {
     const words = OSHWAField.replace(/([a-z0-9])([A-Z])/g, "$1 $2");
     const capitalized = words.charAt(0).toUpperCase() + words.slice(1);
@@ -72,6 +117,14 @@ const OSHWAForm = (props) => {
   const formik = useFormik({
     initialValues: {},
     onSubmit: (values) => {
+      const certificationMarkTerms = {};
+      for (const obj of OSHWATextFields) {
+        certificationMarkTerms[obj.OSHWAField] = values[obj.OSHWAField];
+        delete values[obj.OSHWAField];
+      }
+      const OSHWAData = { ...props.parsedApproData, ...values };
+      // send OSHWAData to server to be sent to OSHWA
+      console.log(JSON.stringify(values, null, 2));
       alert(JSON.stringify(values, null, 2));
     },
   });
@@ -85,23 +138,62 @@ const OSHWAForm = (props) => {
       <div>
         <form onSubmit={formik.handleSubmit}>
           <div>
-            {OSHWAFields.map((element, index) => (
-              <FormControl fullWidth sx={{ marginTop: "2vh" }}>
-                <InputLabel>
-                  {transformOSHWAField(element.OSHWAField)}
-                </InputLabel>
-                <Select
-                  label={transformOSHWAField(element.OSHWAField)}
+            {OSHWATruthFields.map((element, index) => (
+              <div style={{ marginBottom: "2vh" }} key={index}>
+                <Typography variant="body1">{element.description}</Typography>
+                <FormControl fullWidth sx={{ margin: "2vh 0" }}>
+                  <InputLabel>
+                    {transformOSHWAField(element.OSHWAField)}
+                  </InputLabel>
+                  <Select
+                    label={transformOSHWAField(element.OSHWAField)}
+                    name={element.OSHWAField}
+                    onChange={formik.handleChange}
+                  >
+                    <MenuItem value={true}>True</MenuItem>
+                    <MenuItem value={false}>False</MenuItem>
+                  </Select>
+                  {formik.values[element.OSHWAField] == false && (
+                    <TextField
+                      placeholder="Required if answered false above."
+                      name={element.explanationField}
+                      multiline
+                      rows={2}
+                      maxRows={4}
+                      onChange={formik.handleChange}
+                    />
+                  )}
+                </FormControl>
+                <Divider />
+              </div>
+            ))}
+            {OSHWAAgreeFields.map((element, index) => (
+              <div style={{ marginBottom: "2vh" }}>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label={element.term}
                   name={element.OSHWAField}
                   onChange={formik.handleChange}
-                >
-                  <MenuItem value={true}>True</MenuItem>
-                  <MenuItem value={false}>False</MenuItem>
-                </Select>
-                <FormHelperText>{element.description}</FormHelperText>
-                <TextField name={element.explanationField} multiline rows={2} maxRows={4} onChange={formik.handleChange}/>
-              </FormControl>
+                />
+              </div>
             ))}
+            {OSHWATextFields.map((element, index) => (
+              <div style={{ margin: "2vh 0" }}>
+                <Typography variant="body1">{element.description}</Typography>
+                <TextField
+                  fullWidth
+                  name={element.OSHWAField}
+                  multiline
+                  rows={2}
+                  maxRows={4}
+                  onChange={formik.handleChange}
+                />
+              </div>
+            ))}
+            <FormControlLabel
+              control={<Checkbox />}
+              label="I agree to the terms of the OSHWA Open Source Hardware Certification Mark License Agreement, including the Requirements for Certification and Usage Guidelines incorporated by reference and including license terms that are not present in or conflict with this web form. I acknowledge that by agreeing to the terms of the OSHWA Open Source Hardware Certification Mark License Agreement that I am binding the entity listed to the License Agreement. I recognize that I will receive my unique identification number that allows me to promote my project as OSHWA Open Source Hardware Certified in compliance with the user guidelines via the email provided to OSHWA after submitting this form."
+            />
             <Button fullWidth color="primary" variant="contained" type="submit">
               Submit
             </Button>
