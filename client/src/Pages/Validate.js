@@ -22,7 +22,7 @@ const Validity = () => {
       {Array.isArray(valid) ? (
         <ApproFields missingFields={valid} />
       ) : (
-        <OSHWAForm partialOSHWAData={valid} />
+        <OSHWAForm parsedApproData={valid} />
       )}
     </Container>
   );
