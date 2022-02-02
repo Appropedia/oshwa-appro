@@ -82,10 +82,6 @@ const OSHWAForm = (props) => {
     },
     {
       OSHWAField: "violationsEnforcement",
-      term: "I acknowledge that OSHWA has the right to enforce violations of the use of the mark. This enforcement may involve financial penalties for misuse in bad faith.",
-    },
-    {
-      OSHWAField: "violationsEnforcement",
       term: "I have the ability to bind those responsible for the certified item to this agreement.",
     },
   ];
@@ -190,7 +186,10 @@ const OSHWAForm = (props) => {
                 />
               </div>
             ))}
+            {console.log(formik.values)}
             <FormControlLabel
+              name="agreementTerms"
+              onChange={formik.handleChange}
               control={<Checkbox />}
               label="I agree to the terms of the OSHWA Open Source Hardware Certification Mark License Agreement, including the Requirements for Certification and Usage Guidelines incorporated by reference and including license terms that are not present in or conflict with this web form. I acknowledge that by agreeing to the terms of the OSHWA Open Source Hardware Certification Mark License Agreement that I am binding the entity listed to the License Agreement. I recognize that I will receive my unique identification number that allows me to promote my project as OSHWA Open Source Hardware Certified in compliance with the user guidelines via the email provided to OSHWA after submitting this form."
             />
