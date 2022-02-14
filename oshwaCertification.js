@@ -49,79 +49,67 @@ export async function checkValidity(pageName) {
     }
   }
 
-  partialOSHWAData = {
-    responsiblePartyType: "Organization", //r "Organization"
-    responsibleParty: affliations, //r [Affliations]
-    bindingParty: pageAuthors, //r [Page authors]
-    country: mapResult.substr(0, mapResult.indexOf("~")), //r [Map result]
-    projectName: title, //r [Title]
-    projectWebsite: url, // [URL]
-    primaryType: primaryType, //r [Uses]
-    hardwareLicense: "Other", //r "Other"
-    softwareLicense: "Other", //r "Other"
-    documentationLicense: "Other", //r "Other"
-  };
-
   if (missingFields.length > 0) {
     return missingFields;
   } else {
-    return partialOSHWAData;
+    const parsedApproData = {
+      responsiblePartyType: "Organization", //r "Organization"
+      responsibleParty: affliations, //r [Affliations]
+      bindingParty: pageAuthors, //r [Page authors]
+      country: mapResult.substr(0, mapResult.indexOf("~")), //r [Map result]
+      projectName: title, //r [Title]
+      projectWebsite: url, // [URL]
+      primaryType: primaryType, //r [Uses]
+      hardwareLicense: "Other", //r "Other"
+      softwareLicense: "Other", //r "Other"
+      documentationLicense: "Other", //r "Other"
+    };
+    return parsedApproData;
   }
 }
 
-async function submitCertification(partialOSHWAData) {
+// Don't think i need this?
+async function submitCertification(formData) {
+  /*
+  formData = {
+    "noCommercialRestriction": false,
+    "noDocumentationRestriction": false,
+    "openHardwareComponents": false,
+    "noSpecificProduct": false,
+    "explanationNcr": "45",
+    "explanationNdr": "586",
+    "explanationOhwc": "585",
+    "creatorContribution": false,
+    "explanationCcr": "hjk",
+    "noUseRestriction": false,
+    "explanationNur": "hj",
+    "redistributedWork": false,
+    "explanationRwr": "jk",
+    "explanationNsp": "hj",
+    "noComponentRestriction": false,
+    "explanationNor": "jkk",
+    "technologyNeutral": true
+  }
+  */
+
   // would be good if api didn't use spaces and returned arrays
   // could try and get projectDescription
   var oshwaData = {
-    // responsiblePartyType: "Organization", //r "Organization"
-    // responsibleParty: affliations, //r [Affliations]
-    // bindingParty: pageAuthors, //r [Page authors]
-    // country: mapResult.substr(0, mapResult.indexOf("~")), //r [Map result]
-    // projectName: title, //r [Title]
-    // projectWebsite: url, // [URL]
-    // primaryType: primaryType, //r [Uses]
-    // hardwareLicense: "CERN", //r "Other"
-    // softwareLicense: "Apache", //r "Other"
-    // documentationLicense: "CC 0", //r "Other"
-    // ask users for the below fields. all explanations are r unless false
-    noCommercialRestriction: false,
-    explanationNcr: "Lorem ipsum dolor sit amet.",
-    noDocumentationRestriction: false,
-    explanationNdr: "Lorem ipsum dolor sit amet.",
-    openHardwareComponents: "false",
-    explanationOhwc: "Lorem ipsum dolor sit amet.",
-    creatorContribution: false,
-    explanationCcr: "Lorem ipsum dolor sit amet.",
-    noUseRestriction: false,
-    explanationNur: "Lorem ipsum dolor sit amet.",
-    redistributedWork: false,
-    explanationRwr: "Lorem ipsum dolor sit amet.",
-    noSpecificProduct: "falsmedia e",
-    explanationNsp: "Lorem ipsum dolor sit amet.",
-    noComponentRestriction: false,
-    explanationNor: "Lorem ipsum dolor sit amet.",
-    technologyNeutral: false,
-    explanationTn: "Lorem ipsum dolor sit amet.",
-    // ask users
     certificationMarkTerms: {
       accurateContactInformation: {
-        term: "I have provided OSHWA with accurate contact information, recognize that all official communications from OSHWA will be directed to that contact information, and will update that contact information as necessary.",
         agreement: true,
       },
       complianceWithOfficialCertificationGuidelines: {
-        term: "I will only use the certification mark in compliance with official certification guidelines.",
+
         agreement: true,
       },
       oshwaCertificationMark: {
-        term: "I acknowledge that all right, title, and interest in the certification mark remains with OSHWA.",
         agreement: true,
       },
       violationsEnforcement: {
-        term: "I acknowledge that OSHWA has the right to enforce violations of the use of the mark. This enforcement may involve financial penalties for misuse in bad faith.",
         agreement: true,
       },
       responsibility: {
-        term: "I have the ability to bind those responsible for the certified item to this agreement.",
         agreement: true,
       },
     },
@@ -134,7 +122,7 @@ async function submitCertification(partialOSHWAData) {
     oshwaData.projectKeywords = keywords;
   }
 
-  const merged = { ...oshwaData, ...partialOSHWAData };
+  const merged = { ...oshwaData, ...formData };
 
   var optionsConfig = {
     method: "post",
