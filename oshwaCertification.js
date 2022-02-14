@@ -3,6 +3,9 @@ const env = require("./config.env");
 const express = require("express");
 const app = express();
 const port = 5000;
+const bodyParser = require("body-parser");
+
+app.use(bodyParser.json());
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
@@ -78,3 +81,23 @@ app.get("/checkValidity/:pageName", async (req, res) => {
   }
 });
 
+app.post("/submitCertification", async (req, res) => {
+  console.log(req.body);
+  var config = {
+    method: "post",
+    url: "https://certificationapi.oshwa.org/api/projects/",
+    headers: {
+      Authorization: `Bearer ${env.OSHWA}`,
+      "Content-Type": "application/json",
+    },
+    data: JSON.stringify(req.body),
+  };
+
+  axios(config)
+    .then(function (response) {
+      res.send(JSON.stringify(response.data));
+    })
+    .catch(function (error) {
+      res.send(error);
+    });
+});
