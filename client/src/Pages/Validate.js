@@ -4,7 +4,8 @@ import ApproFields from "../components/ApproFields";
 import OSHWAForm from "../components/OSHWAForm";
 
 const Validity = () => {
-  // valid = {} of partial OSHWA data OR [] of missing fields
+  // @todo call checkValidity to get valid
+  // valid = ({} of partial OSHWA data OR [] of missing fields)
   const valid = {
     responsiblePartyType: "Organization", //r "Organization"
     responsibleParty: "Affli", //r [Affliations]

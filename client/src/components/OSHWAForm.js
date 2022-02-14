@@ -45,10 +45,8 @@ const OSHWAForm = (props) => {
         ...values,
         certificationMarkTerms,
       };
-      // send OSHWAData to server to be sent to OSHWA
+      // @todo send data to OSHWA
       console.log(OSHWAData);
-      // console.log(JSON.stringify(OSHWAData, null, 2));
-      // alert(JSON.stringify(values, null, 2));
     },
   });
 
