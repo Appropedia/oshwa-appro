@@ -1,4 +1,11 @@
-import { Button, Container, TextField, Typography } from "@mui/material";
+import {
+  Button,
+  CircularProgress,
+  Container,
+  LinearProgress,
+  TextField,
+  Typography,
+} from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -8,20 +15,21 @@ import OSHWAForm from "../components/OSHWAForm";
 const Validity = () => {
   const params = useParams();
   const pageName = params?.pageName;
+
+  // valid = ({} of partial OSHWA data OR [] of missing fields)
   const [valid, setValid] = useState();
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     axios
       .get(
-        `https://oshwa-appro-jackpeplinski.vercel.app/checkValidity/${pageName}` 
+        `https://oshwa-appro-jackpeplinski.vercel.app/checkValidity/${pageName}`
       )
       .then((res) => {
+        setIsLoaded(true);
         setValid(res?.data);
       });
   });
-
-  // @todo call checkValidity to get valid
-  // valid = ({} of partial OSHWA data OR [] of missing fields)
 
   // const valid = {
   //   responsiblePartyType: "Organization", //r "Organization"
@@ -37,7 +45,9 @@ const Validity = () => {
   // };
   return (
     <Container maxWidth="md">
-      {Array.isArray(valid) ? (
+      {!isLoaded ? (
+        <LinearProgress />
+      ) : Array.isArray(valid) ? (
         <ApproFields missingFields={valid} />
       ) : (
         <OSHWAForm parsedApproData={valid} />
