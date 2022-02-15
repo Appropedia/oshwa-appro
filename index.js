@@ -1,15 +1,20 @@
 var axios = require("axios");
 const env = require("./config.env");
 const express = require("express");
+var cors = require("cors");
 const app = express();
-const port = 5000;
+const PORT = process.env.PORT || 5000;
 const bodyParser = require("body-parser");
 
 app.use(bodyParser.json());
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`));
 
-app.get("/checkValidity/:pageName", async (req, res) => {
+app.get("/", (req, res) => {
+  res.send("/");
+});
+
+app.get("/checkValidity/:pageName", cors(), async (req, res) => {
   const missingFields = [];
 
   const { data: approData } = await axios.get(
@@ -25,7 +30,6 @@ app.get("/checkValidity/:pageName", async (req, res) => {
     var primaryType;
     const keywords = approData["Keywords"]?.split(", "); // not required
 
-    console.log(approData["Affiliations"]);
     if (!affliations) missingFields.push("Affiliations");
     if (!pageAuthors) missingFields.push("Page author");
     if (!mapResult) missingFields.push("Map result");
@@ -36,7 +40,7 @@ app.get("/checkValidity/:pageName", async (req, res) => {
       method: "get",
       url: "https://certificationapi.oshwa.org/api/options",
       headers: {
-        Authorization: `Bearer ${env.OSHWA}`,
+        Authorization: `Bearer ${process.env.OSHWA || env.OSHWA}`,
       },
     };
 
@@ -74,6 +78,8 @@ app.get("/checkValidity/:pageName", async (req, res) => {
         softwareLicense: "Other", //r "Other"
         documentationLicense: "Other", //r "Other"
       };
+      res.setHeader("Content-Type", "text/html");
+      res.setHeader("Cache-Control", "s-max-age=1, stale-while-revalidate");
       return res.send(parsedApproData);
     }
   } else {
@@ -81,13 +87,12 @@ app.get("/checkValidity/:pageName", async (req, res) => {
   }
 });
 
-app.post("/submitCertification", async (req, res) => {
-  console.log(req.body);
+app.post("/submitCertification", cors(), async (req, res) => {
   var config = {
     method: "post",
     url: "https://certificationapi.oshwa.org/api/projects/",
     headers: {
-      Authorization: `Bearer ${env.OSHWA}`,
+      Authorization: `Bearer ${process.env.OSHWA || env.OSHWA}`,
       "Content-Type": "application/json",
     },
     data: JSON.stringify(req.body),
