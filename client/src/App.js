@@ -20,7 +20,7 @@ function App() {
     <ThemeProvider theme={theme}>
         <Routes>
           <Route exact path="/page/:pageName" element={<Certification />} />
-          <Route exact path="/validate" element={<Validate />} />
+          <Route exact path="/validate/:pageName" element={<Validate />} />
         </Routes>
     </ThemeProvider>
   );

@@ -14,7 +14,7 @@ const Certification = () => {
         Would you like to certify it?
       </Typography>
       <div style={{display: "flex", justifyContent:"center", gap:"2vw"}}>
-        <Button variant="contained" href={"/validate"}>
+        <Button variant="contained" href={`/validate/${pageName}`}>
           Yes, check validity
         </Button>
         <Button variant="outlined">No, learn more</Button>
