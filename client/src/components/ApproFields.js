@@ -1,21 +1,22 @@
-import { Typography } from "@mui/material";
+import { Divider, List, ListItem, ListItemButton, ListItemText, Typography } from "@mui/material";
 import React from "react";
 
 const ApproFields = (props) => {
-  /*
-    items = ["field1"]
-    */
   return (
     <div>
       <Typography variant="h3" component="h3" align="center">
         Please correct these items on the Appropedia page.
       </Typography>
-
-      <ul>
+      <Typography variant="h6" component="h6" align="center">
+        Click to learn more!
+      </Typography>
+      <List>
         {props.missingFields.map((field) => (
-          <li>{field}</li>
+          <ListItemButton>
+            <ListItemText>{field}</ListItemText>
+          </ListItemButton>
         ))}
-      </ul>
+      </List>
     </div>
   );
 };
