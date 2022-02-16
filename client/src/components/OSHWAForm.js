@@ -4,7 +4,6 @@ import {
   Divider,
   FormControl,
   FormControlLabel,
-  FormHelperText,
   InputLabel,
   MenuItem,
   Select,
@@ -18,7 +17,6 @@ import {
   OSHWATextFields,
   OSHWATruthFields,
 } from "../text/OSHWAForm";
-var axios = require("axios");
 
 const OSHWAForm = (props) => {
   function transformOSHWAField(OSHWAField) {
