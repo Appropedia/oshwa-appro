@@ -48,20 +48,20 @@ app.get("/checkValidity/:pageName", cors(), async (req, res) => {
       data: { primaryTypeOptions },
     } = await axios(optionsConfig);
 
-    if (!uses) {
-      missingFields.push("Uses");
-    } else {
-      for (const use of uses) {
-        for (const primaryTypeOption of primaryTypeOptions) {
-          if (use.toLowerCase() == primaryTypeOption.toLowerCase()) {
-            primaryType = primaryTypeOptions;
-          }
-        }
-      }
-      if (!primaryType) {
-        missingFields.push("Uses");
-      }
-    }
+    // if (!uses) {
+    //   missingFields.push("Uses");
+    // } else {
+    //   for (const use of uses) {
+    //     for (const primaryTypeOption of primaryTypeOptions) {
+    //       if (use.toLowerCase() == primaryTypeOption.toLowerCase()) {
+    //         primaryType = primaryTypeOptions;
+    //       }
+    //     }
+    //   }
+    //   if (!primaryType) {
+    //     missingFields.push("Uses");
+    //   }
+    // }
 
     if (missingFields.length > 0) {
       return res.send(missingFields);

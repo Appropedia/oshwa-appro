@@ -17,6 +17,7 @@ import {
   OSHWATextFields,
   OSHWATruthFields,
 } from "../text/OSHWAForm";
+import axios from "axios";
 
 const OSHWAForm = (props) => {
   function transformOSHWAField(OSHWAField) {
@@ -43,6 +44,21 @@ const OSHWAForm = (props) => {
         ...values,
         certificationMarkTerms,
       };
+
+      axios
+        .post(
+          "https://oshwa-appro-jackpeplinski.vercel.app/submitCertification",
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            data: OSHWAData,
+          }
+        )
+        .then((res) => {
+          console.log(res);
+        });
+
       // @todo send data to OSHWA
       console.log(OSHWAData);
     },
