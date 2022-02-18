@@ -7,6 +7,7 @@ const PORT = process.env.PORT || 5000;
 const bodyParser = require("body-parser");
 
 app.use(bodyParser.json());
+app.use(cors());
 
 app.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`));
 
@@ -14,7 +15,7 @@ app.get("/", (req, res) => {
   res.send("/");
 });
 
-app.get("/checkValidity/:pageName", cors(), async (req, res) => {
+app.get("/checkValidity/:pageName", async (req, res) => {
   const missingFields = [];
 
   const { data: approData } = await axios.get(
@@ -87,7 +88,7 @@ app.get("/checkValidity/:pageName", cors(), async (req, res) => {
   }
 });
 
-app.post("/submitCertification", cors(), async (req, res) => {
+app.post("/submitCertification", async (req, res) => {
   var config = {
     method: "post",
     url: "https://certificationapi.oshwa.org/api/projects/",
