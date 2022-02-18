@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import Certify from "./Pages/Certify";
 import Validate from "./Pages/Validate";
 import "./index.css";
+import Welcome from "./Pages/Welcome";
 
 const theme = createTheme({
   palette: {
@@ -18,10 +19,11 @@ const theme = createTheme({
 function App() {
   return (
     <ThemeProvider theme={theme}>
-        <Routes>
-          <Route exact path="/certify/:pageName" element={<Certify />} />
-          <Route exact path="/validate/:pageName" element={<Validate />} />
-        </Routes>
+      <Routes>
+        <Route path="/" element={<Welcome />} />
+        <Route exact path="/certify/:pageName" element={<Certify />} />
+        <Route exact path="/validate/:pageName" element={<Validate />} />
+      </Routes>
     </ThemeProvider>
   );
 }
