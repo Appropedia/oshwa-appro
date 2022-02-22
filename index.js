@@ -28,12 +28,11 @@ app.get("/checkValidity/:pageName", async (req, res) => {
     const title = approData["Title"];
     const url = approData["URL"];
     const uses = approData["Uses"]?.split(", ");
-    var primaryType;
+    var primaryType, country;
     const keywords = approData["Keywords"]?.split(", "); // not required
 
     if (!affliations) missingFields.push("Affiliations");
     if (!pageAuthors) missingFields.push("Page author");
-    if (!mapResult) missingFields.push("Map result");
     if (!title) missingFields.push("Title");
     if (!url) missingFields.push("URL");
 
@@ -46,23 +45,46 @@ app.get("/checkValidity/:pageName", async (req, res) => {
     };
 
     const {
-      data: { primaryTypeOptions },
+      data: { countryOptions, primaryTypeOptions },
     } = await axios(optionsConfig);
 
-    // if (!uses) {
-    //   missingFields.push("Uses");
-    // } else {
-    //   for (const use of uses) {
-    //     for (const primaryTypeOption of primaryTypeOptions) {
-    //       if (use.toLowerCase() == primaryTypeOption.toLowerCase()) {
-    //         primaryType = primaryTypeOptions;
-    //       }
-    //     }
-    //   }
-    //   if (!primaryType) {
-    //     missingFields.push("Uses");
-    //   }
-    // }
+    if (!mapResult) {
+      missingFields.push("Country");
+    } else {
+      const mapResults = mapResult
+        ?.substr(0, mapResult.indexOf("~"))
+        ?.split(", ");
+      for (const result of mapResults) {
+        // @todo get appro to have same locations or add more here
+        if ("United States") {
+          country = "United States of America";
+        } else {
+          for (const countryOption of countryOptions) {
+            if (result.toLowerCase() == countryOption.toLowerCase()) {
+              country = result;
+            }
+          }
+        }
+      }
+      if (!country) {
+        missingFields.push("Country");
+      }
+    }
+
+    if (!uses) {
+      missingFields.push("Uses");
+    } else {
+      for (const use of uses) {
+        for (const primaryTypeOption of primaryTypeOptions) {
+          if (use.toLowerCase() == primaryTypeOption.toLowerCase()) {
+            primaryType = primaryTypeOption;
+          }
+        }
+      }
+      if (!primaryType) {
+        missingFields.push("Uses");
+      }
+    }
 
     if (missingFields.length > 0) {
       return res.send(missingFields);
@@ -71,7 +93,7 @@ app.get("/checkValidity/:pageName", async (req, res) => {
         responsiblePartyType: "Organization", //r "Organization"
         responsibleParty: affliations, //r [Affliations]
         bindingParty: pageAuthors, //r [Page authors]
-        country: mapResult.substr(0, mapResult.indexOf("~")), //r [Map result]
+        country: country, //r [Map result]
         projectName: title, //r [Title]
         projectWebsite: url, // [URL]
         primaryType: primaryType, //r [Uses]
