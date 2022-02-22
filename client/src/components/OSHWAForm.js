@@ -13,9 +13,9 @@ import {
 import React from "react";
 import { useFormik } from "formik";
 import {
-  OSHWAAgreeFields,
-  OSHWATextFields,
-  OSHWATruthFields,
+  AgreeFields,
+  TextFields,
+  TruthFields,
 } from "../text/OSHWAForm";
 import axios from "axios";
 
@@ -30,7 +30,7 @@ const OSHWAForm = (props) => {
     initialValues: {},
     onSubmit: (values) => {
       const certificationMarkTerms = {};
-      for (const obj of OSHWAAgreeFields) {
+      for (const obj of AgreeFields) {
         var agreement = false;
         if (values[obj.OSHWAField] == "on") agreement = true;
 
@@ -71,7 +71,7 @@ const OSHWAForm = (props) => {
         below.
       </Typography>
       <form onSubmit={formik.handleSubmit}>
-        {OSHWATruthFields.map((element, index) => (
+        {TruthFields.map((element, index) => (
           <div style={{ marginBottom: "2vh" }} key={index}>
             <Typography variant="body1">{element.description}</Typography>
             <FormControl fullWidth sx={{ margin: "2vh 0" }}>
@@ -98,7 +98,7 @@ const OSHWAForm = (props) => {
             <Divider />
           </div>
         ))}
-        {OSHWAAgreeFields.map((element, index) => (
+        {AgreeFields.map((element, index) => (
           <div style={{ marginBottom: "2vh" }} key={index}>
             <FormControlLabel
               control={<Checkbox />}
@@ -108,7 +108,7 @@ const OSHWAForm = (props) => {
             />
           </div>
         ))}
-        {OSHWATextFields.map((element, index) => (
+        {TextFields.map((element, index) => (
           <div style={{ margin: "2vh 0" }} key={index}>
             <Typography variant="body1">{element.description}</Typography>
             <TextField

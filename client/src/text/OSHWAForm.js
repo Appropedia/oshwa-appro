@@ -1,4 +1,4 @@
-export const OSHWATruthFields = [
+export const TruthFields = [
   {
     OSHWAField: "noCommercialRestriction",
     explanationField: "explanationNcr",
@@ -49,7 +49,7 @@ export const OSHWATruthFields = [
   },
 ];
 
-export const OSHWAAgreeFields = [
+export const AgreeFields = [
   {
     OSHWAField: "accurateContactInformation",
     term: "I have provided OSHWA with accurate contact information, recognize that all official communications from OSHWA will be directed to that contact information, and will update that contact information as necessary.",
@@ -72,7 +72,7 @@ export const OSHWAAgreeFields = [
   },
 ];
 
-export const OSHWATextFields = [
+export const TextFields = [
   {
     OSHWAField: "explanationCertificationTerms",
     description:
