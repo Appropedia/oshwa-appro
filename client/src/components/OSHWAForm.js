@@ -12,11 +12,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import { useFormik } from "formik";
-import {
-  AgreeFields,
-  TextFields,
-  TruthFields,
-} from "../text/OSHWAForm";
+import { AgreeFields, TextFields, TruthFields } from "../text/OSHWAForm";
 import axios from "axios";
 
 const OSHWAForm = (props) => {
@@ -64,12 +60,34 @@ const OSHWAForm = (props) => {
     },
   });
 
+  function defaultSelect(e) {
+    var state;
+    if (e.target.checked) {
+      state = true;
+    }
+    for (const truthField of TruthFields) {
+      formik.setFieldValue(truthField.OSHWAField, state);
+    }
+    for (const agreeField of AgreeFields) {
+      formik.setFieldValue(agreeField.OSHWAField, state);
+    }
+    formik.setFieldValue("agreementTerms", state);
+  }
+
   return (
     <React.Fragment>
       <Typography variant="h3" component="h3" align="center">
         We've already got most of the data we need! Just fill out the few fields
         below.
       </Typography>
+      <FormControlLabel
+        name="defaultSelect"
+        control={<Checkbox />}
+        label="Use the default options."
+        onChange={(e) => {
+          defaultSelect(e);
+        }}
+      />
       <form onSubmit={formik.handleSubmit}>
         {TruthFields.map((element, index) => (
           <div style={{ marginBottom: "2vh" }} key={index}>
@@ -81,6 +99,11 @@ const OSHWAForm = (props) => {
                 label={transformOSHWAField(element.OSHWAField)}
                 name={element.OSHWAField}
                 onChange={formik.handleChange}
+                value={
+                  formik.values[element.OSHWAField] !== undefined
+                    ? formik.values[element.OSHWAField]
+                    : ""
+                }
               >
                 <MenuItem value={true}>True</MenuItem>
                 <MenuItem value={false}>False</MenuItem>
@@ -101,7 +124,15 @@ const OSHWAForm = (props) => {
         {AgreeFields.map((element, index) => (
           <div style={{ marginBottom: "2vh" }} key={index}>
             <FormControlLabel
-              control={<Checkbox />}
+              control={
+                <Checkbox
+                  checked={
+                    formik.values[element.OSHWAField] !== undefined
+                      ? formik.values[element.OSHWAField]
+                      : false
+                  }
+                />
+              }
               label={element.term}
               name={element.OSHWAField}
               onChange={formik.handleChange}
@@ -123,7 +154,15 @@ const OSHWAForm = (props) => {
         <FormControlLabel
           name="agreementTerms"
           onChange={formik.handleChange}
-          control={<Checkbox />}
+          control={
+            <Checkbox
+              checked={
+                formik.values["agreementTerms"] !== undefined
+                  ? formik.values["agreementTerms"]
+                  : false
+              }
+            />
+          }
           label="I agree to the terms of the OSHWA Open Source Hardware Certification Mark License Agreement, including the Requirements for Certification and Usage Guidelines incorporated by reference and including license terms that are not present in or conflict with this web form. I acknowledge that by agreeing to the terms of the OSHWA Open Source Hardware Certification Mark License Agreement that I am binding the entity listed to the License Agreement. I recognize that I will receive my unique identification number that allows me to promote my project as OSHWA Open Source Hardware Certified in compliance with the user guidelines via the email provided to OSHWA after submitting this form."
         />
         <Button fullWidth color="primary" variant="contained" type="submit">
