@@ -35,28 +35,31 @@ const OSHWAForm = (props) => {
 
         delete values[obj.OSHWAField];
       }
+      
       const OSHWAData = {
         ...props.parsedApproData,
         ...values,
         certificationMarkTerms,
       };
 
-      axios
-        .post(
-          "https://oshwa-appro-jackpeplinski.vercel.app/submitCertification",
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-            data: OSHWAData,
-          }
-        )
-        .then((res) => {
-          console.log(res);
-        });
+      var config = {
+        method: "post",
+        url: "https://certificationapi.oshwa.org/api/projects/",
+        headers: {
+          Authorization:
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxZWYzODc1MDM2NTEyMDAxNzc4ZGNhYyIsImlhdCI6MTY0MzA2NzUwOSwiZXhwIjoxNjUxNzA3NTA5fQ.NIh-bGAlMNXnDL1a2p3j9dz5GRvLvWIjdiBqWUcfuaw",
+          "Content-Type": "application/json",
+        },
+        data: OSHWAData,
+      };
 
-      // @todo send data to OSHWA
-      console.log(OSHWAData);
+      axios(config)
+        .then(function (response) {
+          console.log(JSON.stringify(response.data));
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
   });
 
