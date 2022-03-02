@@ -31,18 +31,6 @@ const Validity = () => {
       });
   });
 
-  // const valid = {
-  //   responsiblePartyType: "Organization", //r "Organization"
-  //   responsibleParty: "Affli", //r [Affliations]
-  //   bindingParty: "Jack", //r [Page authors]
-  //   country: "Canada", //r [Map result]
-  //   projectName: "Title", //r [Title]
-  //   projectWebsite: "URL", // [URL]
-  //   primaryType: "Some primary type", //r [Uses]
-  //   hardwareLicense: "Other", //r "Other"
-  //   softwareLicense: "Other", //r "Other"
-  //   documentationLicense: "Other", //r "Other"
-  // };
   return (
     <Container maxWidth="md">
       {!isLoaded ? (
