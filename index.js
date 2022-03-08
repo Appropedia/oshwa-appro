@@ -48,6 +48,18 @@ app.get("/checkValidity/:pageName", async (req, res) => {
       data: { countryOptions, primaryTypeOptions },
     } = await axios(optionsConfig);
 
+    const {
+      data: {
+        expandtemplates: { wikitext },
+      },
+    } = await axios.get(
+      `https://www.appropedia.org/w/api.php?action=query&action=expandtemplates&text=%7B%7BDatabox/name%7C${pageAuthors}%7D%7D&prop=wikitext&format=json`
+    );
+    const bindingParty = wikitext.substring(
+      wikitext.indexOf("|") + 1,
+      wikitext.length - 2
+    );
+
     if (!mapResult) {
       missingFields.push("Country");
     } else {
@@ -92,7 +104,7 @@ app.get("/checkValidity/:pageName", async (req, res) => {
       const parsedApproData = {
         responsiblePartyType: "Organization", //r "Organization"
         responsibleParty: affliations, //r [Affliations]
-        bindingParty: pageAuthors, //r [Page authors]
+        bindingParty: bindingParty, //r [Page authors]
         country: country, //r [Map result]
         projectName: title, //r [Title]
         projectWebsite: url, // [URL]
