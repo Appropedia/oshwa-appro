@@ -1,16 +1,12 @@
 import {
-  Button,
-  CircularProgress,
   Container,
   LinearProgress,
-  TextField,
-  Typography,
 } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import ApproFields from "../components/ApproFields";
-import OSHWAForm from "../components/OSHWAForm";
+import ApproFields from "../Components/ApproFields";
+import OSHWAForm from "../Components/OSHWAForm";
 
 const Validity = () => {
   const params = useParams();
