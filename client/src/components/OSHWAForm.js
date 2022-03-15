@@ -88,24 +88,24 @@ const OSHWAForm = (props) => {
   }
 
   return (
-    <React.Fragment>
+    <>
       {isLoading ? (
         <LinearProgress />
       ) : (
-        <React.Fragment>
+        <>
           <Typography variant="h3" component="h3" align="center">
             We've already got most of the data we need! Just fill out the few
             fields below.
           </Typography>
-          <FormControlLabel
-            name="defaultSelect"
-            control={<Checkbox />}
-            label="Use the default options."
-            onChange={(e) => {
-              defaultSelect(e);
-            }}
-          />
           <form onSubmit={formik.handleSubmit}>
+            <FormControlLabel
+              name="defaultSelect"
+              control={<Checkbox />}
+              label="Use the default options."
+              onChange={(e) => {
+                defaultSelect(e);
+              }}
+            />
             {TruthFields.map((element, index) => (
               <div style={{ marginBottom: "2vh" }} key={index}>
                 <Typography variant="body1">{element.description}</Typography>
@@ -188,9 +188,9 @@ const OSHWAForm = (props) => {
               Submit
             </Button>
           </form>
-        </React.Fragment>
+        </>
       )}
-    </React.Fragment>
+    </>
   );
 };
 
