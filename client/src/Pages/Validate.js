@@ -1,7 +1,4 @@
-import {
-  Container,
-  LinearProgress,
-} from "@mui/material";
+import { Container, LinearProgress } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -12,20 +9,20 @@ const Validity = () => {
   const params = useParams();
   const pageName = params?.pageName;
 
-  // valid = ({} of partial OSHWA data OR [] of missing fields)
+  // // valid = ({} of partial OSHWA data OR [] of missing fields)
   const [valid, setValid] = useState();
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    axios
-      .get(
+    const fetchData = async () => {
+      const res = await axios.get(
         `https://oshwa-appro-jackpeplinski.vercel.app/checkValidity/${pageName}`
-      )
-      .then((res) => {
-        setIsLoaded(true);
-        setValid(res?.data);
-      });
-  });
+      );
+      setValid(res.data);
+      setIsLoaded(true);
+    };
+    fetchData();
+  }, [pageName, setValid]);
 
   return (
     <Container maxWidth="md">
