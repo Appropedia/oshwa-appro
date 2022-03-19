@@ -52,31 +52,31 @@ export const TruthFields = [
 export const AgreeFields = [
   {
     OSHWAField: "accurateContactInformation",
-    term: "I have provided OSHWA with accurate contact information, recognize that all official communications from OSHWA will be directed to that contact information, and will update that contact information as necessary.",
+    description: "I have provided OSHWA with accurate contact information, recognize that all official communications from OSHWA will be directed to that contact information, and will update that contact information as necessary.",
   },
   {
     OSHWAField: "complianceWithOfficialCertificationGuidelines",
-    term: "I will only use the certification mark in compliance with official certification guidelines.",
+    description: "I will only use the certification mark in compliance with official certification guidelines.",
   },
   {
     OSHWAField: "oshwaCertificationMark",
-    term: "I acknowledge that all right, title, and interest in the certification mark remains with OSHWA.",
+    description: "I acknowledge that all right, title, and interest in the certification mark remains with OSHWA.",
   },
   {
     OSHWAField: "violationsEnforcement",
-    term: "I acknowledge that OSHWA has the right to enforce violations of the use of the mark. This enforcement may involve financial penalties for misuse in bad faith.",
+    description: "I acknowledge that OSHWA has the right to enforce violations of the use of the mark. This enforcement may involve financial penalties for misuse in bad faith.",
   },
   {
     OSHWAField: "responsibility",
-    term: "I have the ability to bind those responsible for the certified item to this agreement.",
+    description: "I have the ability to bind those responsible for the certified item to this agreement.",
   },
 ];
 
 export const TextFields = [
   {
-    OSHWAField: "explanationCertificationTerms",
+    OSHWAField: "explanationCertificationdescriptions",
     description:
-      "If you do not agree with any of the above terms, please explain.",
+      "If you do not agree with any of the above descriptions, please explain.",
   },
   {
     OSHWAField: "relationship",
