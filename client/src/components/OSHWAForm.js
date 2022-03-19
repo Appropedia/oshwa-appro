@@ -44,7 +44,11 @@ const CheckboxExplanation = (props) => {
       <Typography paragraph={true} style={{ display: "inline" }}>
         {props.description}
       </Typography>
-      {explanation ? <input type="text" name={props.explanationField} /> : ""}
+      {explanation ? (
+        <TextField fullWidth minRows={3} name={props.explanationField} />
+      ) : (
+        ""
+      )}
     </>
   );
 };
@@ -80,7 +84,7 @@ const OSHWAForm = () => {
               <Typography paragraph={true} style={{ display: "inline" }}>
                 {element.description}
               </Typography>
-              <input type="text" />
+              <TextField fullWidth minRows={3} />
             </div>
           ))}
           <input type="checkbox" />
