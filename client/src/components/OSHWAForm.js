@@ -41,7 +41,7 @@ const CheckboxExplanation = (props) => {
   return (
     <>
       <Field type="checkbox" name={props.OSHWAField} />
-      <Typography paragraph="true" style={{ display: "inline" }}>
+      <Typography paragraph={true} style={{ display: "inline" }}>
         {props.description}
       </Typography>
       {explanation ? <input type="text" name={props.explanationField} /> : ""}
@@ -70,21 +70,21 @@ const OSHWAForm = () => {
           {AgreeFields.map((element, index) => (
             <div key={index}>
               <Field type="checkbox" name={element.OSHWAField} />
-              <Typography paragraph="true" style={{ display: "inline" }}>
+              <Typography paragraph={true} style={{ display: "inline" }}>
                 {element.description}
               </Typography>
             </div>
           ))}
           {TextFields.map((element, index) => (
             <div key={index}>
-              <Typography paragraph="true" style={{ display: "inline" }}>
+              <Typography paragraph={true} style={{ display: "inline" }}>
                 {element.description}
               </Typography>
               <input type="text" />
             </div>
           ))}
           <input type="checkbox" />
-          <Typography paragraph="true" style={{ display: "inline" }}>
+          <Typography paragraph={true} style={{ display: "inline" }}>
             I agree to the terms of the OSHWA Open Source Hardware Certification
             Mark License Agreement, including the Requirements for Certification
             and Usage Guidelines incorporated by reference and including license
