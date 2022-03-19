@@ -30,10 +30,7 @@ const CheckboxExplanation = (props) => {
   const [field] = useField(props);
   const [explanation, setExplanation] = useState(true);
 
-  console.log(values[props.name]);
-  console.log(touched);
   useEffect(() => {
-    console.log("useeffect");
     if (!values[props.name]) {
       setExplanation(true);
     } else {
