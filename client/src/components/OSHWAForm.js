@@ -175,17 +175,22 @@ const OSHWAForm = (props) => {
           ))}
           <Field type="checkbox" name="agreementTerms" />
           <Typography paragraph={true} style={{ display: "inline" }}>
-            I agree to the terms of the OSHWA Open Source Hardware Certification
-            Mark License Agreement, including the Requirements for Certification
-            and Usage Guidelines incorporated by reference and including license
-            terms that are not present in or conflict with this web form. I
-            acknowledge that by agreeing to the terms of the OSHWA Open Source
-            Hardware Certification Mark License Agreement that I am binding the
-            entity listed to the License Agreement. I recognize that I will
-            receive my unique identification number that allows me to promote my
-            project as OSHWA Open Source Hardware Certified in compliance with
-            the user guidelines via the email provided to OSHWA after submitting
-            this form.
+            I agree to the terms of the
+            <a href="https://certification.oshwa.org/license-agreement">
+              {" "}OSHWA Open Source Hardware Certification Mark License Agreement
+            </a>
+            , including the Requirements for Certification and Usage Guidelines
+            incorporated by reference and including license terms that are not
+            present in or conflict with this web form. I acknowledge that by
+            agreeing to the terms of the OSHWA Open Source Hardware
+            Certification Mark License Agreement that I am binding the entity
+            listed to the License Agreement. I recognize that I will receive my
+            unique identification number that allows me to promote my project as
+            OSHWA Open Source Hardware Certified in compliance with the{" "}
+            <a href="https://github.com/oshwa/certification-mark">
+              user guidelines{" "}
+            </a>
+            via the email provided to OSHWA after submitting this form.
           </Typography>
           <button type="submit">Submit</button>
         </Form>
