@@ -3,8 +3,8 @@ import React from "react";
 
 const steps = [
   "Select the page to certify",
-  "Confirm your certification",
-  "Complete form",
+  "Confirm the page to certify",
+  "Agreement terms and submission",
 ];
 
 const StepperBar = (props) => {
