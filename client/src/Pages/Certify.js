@@ -1,12 +1,14 @@
 import { Button, Container, Typography } from "@mui/material";
 import React from "react";
 import { useParams } from "react-router-dom";
+import StepperBar from "../Components/StepperBar";
 
 const Certify = () => {
   const params = useParams();
   const pageName = params?.pageName;
   return (
     <Container maxWidth="md">
+      <StepperBar activeStep={1} />
       <Typography variant="h3" component="h3" align="center">
         <b>{pageName}</b> is not certified.
       </Typography>

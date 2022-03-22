@@ -24,6 +24,7 @@ import { AgreeFields, DescFields, TruthFields } from "../text/OSHWAForm";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { display } from "@mui/system";
+import StepperBar from "./StepperBar";
 
 const TruthField = (props) => {
   const { values, setFieldValue } = useFormikContext();
@@ -109,7 +110,7 @@ const onSubmit = async (values, props) => {
     ...values,
     certificationMarkTerms,
   };
-  console.log(OSHWAData)
+  console.log(OSHWAData);
   axios
     .post("https://oshwa-appro-jackpeplinski.vercel.app/submitCertification", {
       headers: {
@@ -128,6 +129,7 @@ const OSHWAForm = (props) => {
 
   return (
     <>
+      <StepperBar activeStep={2} />
       <Formik
         initialValues={{
           explanationCertificationDescriptions: "",
