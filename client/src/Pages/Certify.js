@@ -15,7 +15,7 @@ const Certify = () => {
       <Typography variant="h3" component="h3" align="center">
         Would you like to certify it?
       </Typography>
-      <div style={{display: "flex", justifyContent:"center", gap:"2vw"}}>
+      <div style={{display: "flex", justifyContent:"center", gap:"2vh"}}>
         <Button variant="contained" href={`/validate/${pageName}`}>
           Yes, check validity
         </Button>
