@@ -11,7 +11,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   Field,
   Form,
@@ -20,74 +20,158 @@ import {
   useFormik,
   useFormikContext,
 } from "formik";
-import { AgreeFields, TextFields, TruthFields } from "../text/OSHWAForm";
+import { AgreeFields, DescFields, TruthFields } from "../text/OSHWAForm";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { display } from "@mui/system";
 
-const CheckboxExplanation = (props) => {
-  const { values, touched } = useFormikContext();
+const TruthField = (props) => {
+  const { values, setFieldValue } = useFormikContext();
   const [field] = useField(props);
-  const [explanation, setExplanation] = useState(true);
 
   useEffect(() => {
-    if (!values[props.name]) {
-      setExplanation(true);
+    if (values.recommendedOptions) {
+      setFieldValue(props.name, true);
     } else {
-      setExplanation(false);
+      setFieldValue(props.name, false);
     }
-  }, [values, touched, props.name]);
+  }, [values.recommendedOptions, props.name, setFieldValue]);
 
   return (
     <>
-      <Field type="checkbox" name={props.OSHWAField} />
+      <input {...props} {...field} />
       <Typography paragraph={true} style={{ display: "inline" }}>
         {props.description}
       </Typography>
-      {explanation ? (
-        <TextField fullWidth minRows={3} name={props.explanationField} />
-      ) : (
-        ""
-      )}
+      {!values[props.name] ? <TextField fullWidth minRows={3} /> : ""}
     </>
   );
 };
 
-const OSHWAForm = () => {
+const AgreeField = (props) => {
+  const { values, setFieldValue } = useFormikContext();
+  const [field] = useField(props);
+
+  useEffect(() => {
+    if (values.recommendedOptions) {
+      setFieldValue(props.name, true);
+    } else {
+      setFieldValue(props.name, false);
+    }
+  }, [values.recommendedOptions, props.name, setFieldValue]);
+
+  return (
+    <>
+      <input {...props} {...field} />
+      <Typography paragraph={true} style={{ display: "inline" }}>
+        {props.description}
+      </Typography>
+    </>
+  );
+};
+
+const DescField = (props) => {
+  const { values, setFieldValue } = useFormikContext();
+  const [field] = useField(props);
+
+  useEffect(() => {
+    if (values.recommendedOptions) {
+      setFieldValue("parentName", "N/A");
+      setFieldValue(
+        "relationship",
+        "I am the primary developer of the certified item."
+      );
+      setFieldValue("explanationCertificationDescriptions", "N/A");
+    }
+  }, [values.recommendedOptions, props.name, setFieldValue]);
+
+  return (
+    <>
+      <Typography paragraph={true} style={{ display: "inline" }}>
+        {props.description}
+      </Typography>
+      <TextField fullWidth minRows={3} {...field} />
+      {/* <input {...props} {...field}/> */}
+    </>
+  );
+};
+
+const onSubmit = async (values, props) => {
+  // console.log(props)
+  const certificationMarkTerms = {};
+  for (const obj of AgreeFields) {
+    certificationMarkTerms[obj.OSHWAField] = {};
+    certificationMarkTerms[obj.OSHWAField].agreement = values[obj.OSHWAField];
+    delete values[obj.OSHWAField];
+  }
+  const OSHWAData = {
+    ...props.parsedApproData,
+    ...values,
+    certificationMarkTerms,
+  };
+  console.log(OSHWAData)
+  axios
+    .post("https://oshwa-appro-jackpeplinski.vercel.app/submitCertification", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: OSHWAData,
+    })
+    .then((res) => {
+      console.log(res);
+    });
+};
+
+const OSHWAForm = (props) => {
   // why do I still get a few his here
   // console.log("hi");
 
   return (
     <>
-      <Formik initialValues={{}}>
+      <Formik
+        initialValues={{
+          explanationCertificationDescriptions: "",
+          relationship: "",
+          parentName: "",
+        }}
+        onSubmit={(values) => onSubmit(values, props)}
+      >
         <Form>
+          <Field type="checkbox" name="recommendedOptions" />{" "}
+          <Typography paragraph={true} style={{ display: "inline" }}>
+            Use the recommended options.
+          </Typography>
           {TruthFields.map((element, index) => (
             <div key={index}>
-              <CheckboxExplanation
+              <TruthField
+                type="checkbox"
                 name={element.OSHWAField}
-                OSHWAField={element.OSHWAField}
                 description={element.description}
-                explanationField={element.explanationField}
               />
             </div>
           ))}
           {AgreeFields.map((element, index) => (
             <div key={index}>
-              <Field type="checkbox" name={element.OSHWAField} />
-              <Typography paragraph={true} style={{ display: "inline" }}>
-                {element.description}
-              </Typography>
+              <AgreeField
+                type="checkbox"
+                name={element.OSHWAField}
+                description={element.description}
+              />
             </div>
           ))}
-          {TextFields.map((element, index) => (
+          {DescFields.map((element, index) => (
             <div key={index}>
-              <Typography paragraph={true} style={{ display: "inline" }}>
+              <DescField
+                name={element.OSHWAField}
+                description={element.description}
+              />
+              {/* <Typography paragraph={true} style={{ display: "inline" }}>
                 {element.description}
               </Typography>
-              <TextField fullWidth minRows={3} />
+              <TextField fullWidth minRows={3} /> */}
             </div>
           ))}
-          <input type="checkbox" />
+          <Field type="checkbox" name="agreementTerms" />
           <Typography paragraph={true} style={{ display: "inline" }}>
             I agree to the terms of the OSHWA Open Source Hardware Certification
             Mark License Agreement, including the Requirements for Certification
@@ -101,6 +185,7 @@ const OSHWAForm = () => {
             the user guidelines via the email provided to OSHWA after submitting
             this form.
           </Typography>
+          <button type="submit">Submit</button>
         </Form>
       </Formik>
     </>

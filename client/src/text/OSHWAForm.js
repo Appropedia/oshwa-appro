@@ -72,9 +72,9 @@ export const AgreeFields = [
   },
 ];
 
-export const TextFields = [
+export const DescFields = [
   {
-    OSHWAField: "explanationCertificationdescriptions",
+    OSHWAField: "explanationCertificationDescriptions",
     description:
       "If you do not agree with any of the above descriptions, please explain.",
   },
