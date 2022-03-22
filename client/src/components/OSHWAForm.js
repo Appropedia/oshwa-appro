@@ -105,21 +105,28 @@ const onSubmit = async (values, props) => {
     certificationMarkTerms[obj.OSHWAField].agreement = values[obj.OSHWAField];
     delete values[obj.OSHWAField];
   }
-  const OSHWAData = {
+
+  const OSHWAData = JSON.stringify({
     ...props.parsedApproData,
     ...values,
     certificationMarkTerms,
+  });
+
+  var config = {
+    method: "post",
+    url: "https://oshwa-appro-jackpeplinski.vercel.app/submitCertification",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: OSHWAData,
   };
-  console.log(OSHWAData);
-  axios
-    .post("https://oshwa-appro-jackpeplinski.vercel.app/submitCertification", {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: OSHWAData,
+
+  axios(config)
+    .then(function (response) {
+      console.log(JSON.stringify(response.data));
     })
-    .then((res) => {
-      console.log(res);
+    .catch(function (error) {
+      console.log(error);
     });
 };
 
@@ -175,9 +182,9 @@ const OSHWAForm = (props) => {
           ))}
           <Field type="checkbox" name="agreementTerms" />
           <Typography paragraph={true} style={{ display: "inline" }}>
-            I agree to the terms of the
+            I agree to the terms of the{" "}
             <a href="https://certification.oshwa.org/license-agreement">
-              {" "}OSHWA Open Source Hardware Certification Mark License Agreement
+              OSHWA Open Source Hardware Certification Mark License Agreement
             </a>
             , including the Requirements for Certification and Usage Guidelines
             incorporated by reference and including license terms that are not
@@ -188,8 +195,8 @@ const OSHWAForm = (props) => {
             unique identification number that allows me to promote my project as
             OSHWA Open Source Hardware Certified in compliance with the{" "}
             <a href="https://github.com/oshwa/certification-mark">
-              user guidelines{" "}
-            </a>
+              user guidelines
+            </a>{" "}
             via the email provided to OSHWA after submitting this form.
           </Typography>
           <button type="submit">Submit</button>

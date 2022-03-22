@@ -13,7 +13,7 @@ const StepperBar = (props) => {
       <Stepper nonLinear activeStep={props.activeStep}>
         {steps.map((label, index) => (
           <Step key={label} completed={props.completed}>
-            <StepButton>{label}</StepButton>
+            <StepButton disabled={true}>{label}</StepButton>
           </Step>
         ))}
       </Stepper>
