@@ -6,6 +6,9 @@ import {
   FormControlLabel,
   InputLabel,
   LinearProgress,
+  List,
+  ListItemButton,
+  ListItemText,
   MenuItem,
   Select,
   TextField,
@@ -25,6 +28,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { display } from "@mui/system";
 import StepperBar from "./StepperBar";
+import "../index.css";
 
 const TruthField = (props) => {
   const { values, setFieldValue } = useFormikContext();
@@ -133,10 +137,25 @@ const onSubmit = async (values, props) => {
 const OSHWAForm = (props) => {
   // why do I still get a few his here
   // console.log("hi");
-
   return (
     <>
       <StepperBar activeStep={2} />
+      <Typography variant="h3" component="h3" align="center">
+        This data from Appropedia will be used:
+      </Typography>
+      <List style={{ padding: "0" }}>
+        {Object.keys(props.parsedApproData).map((field) => (
+          <ListItemButton>
+            <ListItemText>
+              <strong>{field}:</strong> {props.parsedApproData[field]}
+            </ListItemText>
+          </ListItemButton>
+        ))}
+      </List>
+      <Divider style={{ margin: "2vh 0" }} />
+      <Typography variant="h3" component="h3" align="center">
+        Please complete this form:
+      </Typography>
       <Formik
         initialValues={{
           explanationCertificationDescriptions: "",
@@ -145,7 +164,7 @@ const OSHWAForm = (props) => {
         }}
         onSubmit={(values) => onSubmit(values, props)}
       >
-        <Form>
+        <Form style={{ padding: "2vh 0" }}>
           <Field type="checkbox" name="recommendedOptions" />{" "}
           <Typography paragraph={true} style={{ display: "inline" }}>
             Use the recommended options.
@@ -199,7 +218,13 @@ const OSHWAForm = (props) => {
             </a>{" "}
             via the email provided to OSHWA after submitting this form.
           </Typography>
-          <button type="submit">Submit</button>
+          <div
+            style={{ display: "flex", justifyContent: "center", margin: "2vh" }}
+          >
+            <Button variant="contained" type="submit">
+              Submit
+            </Button>
+          </div>
         </Form>
       </Formik>
     </>

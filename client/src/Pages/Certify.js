@@ -6,6 +6,7 @@ import StepperBar from "../Components/StepperBar";
 const Certify = () => {
   const params = useParams();
   const pageName = params?.pageName;
+  
   return (
     <Container maxWidth="md">
       <StepperBar activeStep={1} />
@@ -19,7 +20,7 @@ const Certify = () => {
       </div>
       <div style={{ display: "flex", justifyContent: "center", gap: "2vh" }}>
         <Button variant="contained" href={`/validate/${pageName}`}>
-          Yes, check validity
+          Yes, certify 
         </Button>
         <Button variant="outlined">No, learn more</Button>
       </div>

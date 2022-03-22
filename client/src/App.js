@@ -2,7 +2,6 @@ import { createTheme, ThemeProvider } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
 import Certify from "./Pages/Certify";
 import Validate from "./Pages/Validate";
-import "./index.css";
 import Welcome from "./Pages/Welcome";
 import Success from "./Pages/Success";
 import Failure from "./Pages/Failure";
