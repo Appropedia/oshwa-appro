@@ -12,7 +12,7 @@ import React, { useEffect, useState } from "react";
 import { Field, Form, Formik, useField, useFormikContext } from "formik";
 import { AgreeFields, DescFields, TruthFields } from "../text/OSHWAForm";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import StepperBar from "./StepperBar";
 import "../index.css";
 
@@ -89,6 +89,8 @@ const DescField = (props) => {
 const OSHWAForm = (props) => {
   // why do I still get a few his here
   // console.log("hi");
+  const params = useParams();
+  const pageName = params?.pageName;
   let navigate = useNavigate();
   const [isLoaded, setIsLoaded] = useState(true);
 
@@ -132,7 +134,14 @@ const OSHWAForm = (props) => {
         <>
           <StepperBar activeStep={2} />
           <Typography variant="h3" component="h3" align="center">
-            This data from Appropedia will be used:
+            Please complete following sections.
+          </Typography>
+          <Divider style={{ margin: "2vh 0" }} />
+          <Typography variant="h6" component="h6" align="center">
+            <strong>Section 1:</strong> This is the available data for this
+            page. Please ensure the data below is correct or make any changes to
+            the page before continuing to the next stage of the certification
+            tool.
           </Typography>
           <List style={{ padding: "0" }}>
             {Object.keys(props.parsedApproData).map((element, index) => (
@@ -143,9 +152,23 @@ const OSHWAForm = (props) => {
               </ListItemButton>
             ))}
           </List>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              margin: "2vh",
+            }}
+          >
+            <Button
+              variant="contained"
+              href={`https://www.appropedia.org/w/index.php?title=${pageName}&action=edit`}
+            >
+              Make changes
+            </Button>
+          </div>
           <Divider style={{ margin: "2vh 0" }} />
-          <Typography variant="h3" component="h3" align="center">
-            Please complete this form:
+          <Typography variant="h6" component="h6" align="center">
+            <strong>Section 2: </strong>Please complete the form below.
           </Typography>
           <Formik
             initialValues={{
@@ -184,10 +207,6 @@ const OSHWAForm = (props) => {
                     name={element.OSHWAField}
                     description={element.description}
                   />
-                  {/* <Typography paragraph={true} style={{ display: "inline" }}>
-                {element.description}
-              </Typography>
-              <TextField fullWidth minRows={3} /> */}
                 </div>
               ))}
               <Field type="checkbox" name="agreementTerms" />

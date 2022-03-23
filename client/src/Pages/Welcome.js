@@ -20,7 +20,7 @@ const Welcome = () => {
         align="center"
         style={{ margin: "2vh" }}
       >
-        Enter the article URL you would like to submit for OSHWA.
+        Enter the URL of the page you'd like to submit for OSHWA Certification.
       </Typography>
       <TextField fullWidth onChange={(e) => onChange(e)} />
       <div style={{ display: "flex", justifyContent: "center", margin: "2vh" }}>
