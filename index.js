@@ -19,7 +19,9 @@ app.get("/checkValidity/:pageName", async (req, res) => {
   const missingFields = [];
 
   const { data: approData } = await axios.get(
-    `https://www.appropedia.org/w/rest.php/semantic/v0/${req.params.pageName}`
+    `https://www.appropedia.org/w/rest.php/semantic/v0/${encodeURIComponent(
+      req.params.pageName
+    )}`
   );
   if (approData) {
     const affliations = approData["Affiliations"];
@@ -53,7 +55,9 @@ app.get("/checkValidity/:pageName", async (req, res) => {
         expandtemplates: { wikitext },
       },
     } = await axios.get(
-      `https://www.appropedia.org/w/api.php?action=query&action=expandtemplates&text=%7B%7BDatabox/name%7C${pageAuthors}%7D%7D&prop=wikitext&format=json`
+      `https://www.appropedia.org/w/api.php?action=query&action=expandtemplates&text=%7B%7BDatabox/name%7C${encodeURIComponent(
+        pageAuthors
+      )}%7D%7D&prop=wikitext&format=json`
     );
     const bindingParty = wikitext.substring(
       wikitext.indexOf("|") + 1,
