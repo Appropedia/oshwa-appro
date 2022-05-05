@@ -5,7 +5,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const bodyParser = require("body-parser");
 
-const pageNames = [];
+const pages = [];
 async function getProjectPages(cmcontinue) {
   if (cmcontinue) {
     return await axios.get(
@@ -27,7 +27,7 @@ async function getProjectTitlesWrapper(cmcontinue) {
   ) {
     const { data: resp } = await getProjectPages(cmcontinue);
     for (page of resp.query.categorymembers) {
-      pageNames.push(page);
+      pages.push(page);
     }
     if (resp.continue) {
       getProjectTitles(resolve, reject, resp.continue.cmcontinue);
@@ -37,10 +37,10 @@ async function getProjectTitlesWrapper(cmcontinue) {
   });
 }
 
-async function getValidity(pageName) {
-  console.log(pageName);
+async function getValidity(title) {
+  console.log(title);
   const { data: resp } = await axios.get(
-    `https://oshwa-appro-jackpeplinski.vercel.app/checkValidity/${pageName}`
+    `https://oshwa-appro-jackpeplinski.vercel.app/checkValidity/${encodeURIComponent(title)}`
   );
 
   if (Array.isArray(resp)) {
@@ -53,8 +53,7 @@ async function getValidity(pageName) {
 async function start() {
   console.log("🏃🏽 Starting run...");
   await getProjectTitlesWrapper();
-  for (page of pageNames) {
-    console.log(page);
+  for (page of pages) {
     var validCount = 0,
       invalidCount = 0,
       numberMissing = 0;
