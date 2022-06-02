@@ -26,7 +26,7 @@ app.get("/checkValidity/:pageName", async (req, res) => {
   if (approData) {
     const affliations = approData["Affiliations"];
     const pageAuthors = approData["Page authors"];
-    const mapResult = approData["Map result"];
+    const mapResult = approData["Map result"] || approData["Location"];
     const title = approData["Title"];
     const url = approData["URL"];
     const uses = approData["Uses"]?.split(", ");

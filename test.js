@@ -40,7 +40,9 @@ async function getProjectTitlesWrapper(cmcontinue) {
 async function getValidity(title) {
   console.log(title);
   const { data: resp } = await axios.get(
-    `https://oshwa-appro-jackpeplinski.vercel.app/checkValidity/${encodeURIComponent(title)}`
+    `https://oshwa-appro-jackpeplinski.vercel.app/checkValidity/${encodeURIComponent(
+      title
+    )}`
   );
 
   if (Array.isArray(resp)) {
@@ -53,16 +55,17 @@ async function getValidity(title) {
 async function start() {
   console.log("🏃🏽 Starting run...");
   await getProjectTitlesWrapper();
+  console.log("🔢", pages.length, "pages found...");
+  var validCount = 0,
+    invalidCount = 0,
+    numberMissing = 0;
   for (page of pages) {
-    var validCount = 0,
-      invalidCount = 0,
-      numberMissing = 0;
     const validity = await getValidity(page.title);
     if (validity.validStatus) {
       validCount++;
     } else {
       invalidCount++;
-      numberMissing += numberMissing;
+      numberMissing += validity.numberMissing;
     }
   }
   console.log("Invalid count", invalidCount);
